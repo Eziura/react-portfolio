@@ -15,18 +15,11 @@ export default class PortfolioContainer extends Component {
         this.state = {
             pageTitle: "Welcome to my portfolio",
             isLoading: false,
-            data: [
-                { title: "Quip", category: "eCommerce", slug: "quip" },
-                { title: "Eventbrite", category: "Scheduling", slug: "eventbrite" },
-                { title: "Ministry Safe", category: "Enterprise", slug: "ministry-safe" },
-                { title: "SwingAway", category: "eCommerce", slug: "swingaway" }
-            ]
+            data: []
         };
 
         //Bind the handleFilter
         this.handleFilter = this.handleFilter.bind(this);
-        this.getPortfolioItems = this.getPortfolioItems.bind(this);
-
     }
 
     handleFilter(filter) {
@@ -42,7 +35,9 @@ export default class PortfolioContainer extends Component {
         axios.get('https://eziura.devcamp.space/portfolio/portfolio_items')
             .then(response => {
                 // handle success
-                console.log("response data", response);
+                this.setState({
+                    data: response.data.portfolio_items
+                })
             })
             .catch(error => {
                 // handle error
@@ -55,18 +50,19 @@ export default class PortfolioContainer extends Component {
 
     portfolioItems() {
         return this.state.data.map(item => {
-            return <PortfolioItem title={item.title} url={"google.com"} slug={item.slug} />;
+            console.log('item-data', item);
+            return <PortfolioItem key={item.id} title={item.name} url={item.url} slug={item.id} />;
         });
     }
 
-
+    componentDidMount() {
+        this.getPortfolioItems();
+    }
 
     render() {
         if (this.state.isLoading) {
             return <div>Loading...</div>;
         }
-
-        this.getPortfolioItems();
 
         return (
             <div>
