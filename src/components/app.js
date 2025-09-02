@@ -71,12 +71,16 @@ export default class App extends Component {
     this.checkLoginStatus();
   }
 
+  authorizedPages() {
+    return [<Route path="/blog" component={Blog} />];
+  }
+
   render() {
     return (
       <div className="container">
         <Router>
           <div>
-            <NavigationContainer />
+            <NavigationContainer loggedInStatus={this.state.loggedInStatus} />
 
             <h2>{this.state.loggedInStatus}</h2>
 
@@ -96,7 +100,9 @@ export default class App extends Component {
 
               <Route path="/about-me" component={About} />
               <Route path="/contact" component={Contact} />
-              <Route path="/blog" component={Blog} />
+
+              {/* Estas paginas solo son visibles si estas logueado y se colocan en la lista de authorizedPages */}
+              {this.state.loggedInStatus === "LOGGED_IN" ? this.authorizedPages() : null }
               <Route
                 exact
                 path="/portfolio/:slug"
