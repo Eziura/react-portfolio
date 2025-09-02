@@ -1,34 +1,31 @@
-import React, { Component } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 
-export default class NavigationComponent extends Component {
-    constructor() {
-        super();
-    }
+const NavigationComponent = (props) => {
 
-    render() {
-        return (
-            <div className="nav-wrapper">
-                <div className="left-side">
-                    <div className="nav-link-wrapper">
-                        <NavLink exact to="/" activeClassName="nav-link-active">Home</NavLink>
-                    </div>
-                    <div className="nav-link-wrapper">
-                        <NavLink to="/about-me" activeClassName="nav-link-active">About</NavLink>
-                    </div>
-                    <div className="nav-link-wrapper">
-                        <NavLink to="/contact" activeClassName="nav-link-active">Contact</NavLink>
-                    </div>
-                    <div className="nav-link-wrapper">
-                        <NavLink to="/blog" activeClassName="nav-link-active">Blog</NavLink>
-                    </div>
-                    {false ? <button>Add Blog</button> : null}
+    return (
+        <div className="nav-wrapper">
+            <div className="left-side">
+                <div className="nav-link-wrapper">
+                    <NavLink exact to="/" activeClassName="nav-link-active">Home</NavLink>
+                </div>
+                <div className="nav-link-wrapper">
+                    <NavLink to="/about-me" activeClassName="nav-link-active">About</NavLink>
+                </div>
+                <div className="nav-link-wrapper">
+                    <NavLink to="/contact" activeClassName="nav-link-active">Contact</NavLink>
+                </div>
+                <div className="nav-link-wrapper">
+                    <NavLink to="/blog" activeClassName="nav-link-active">Blog</NavLink>
+                </div>
+                {false ? <button>Add Blog</button> : null}
 
-                </div>
-                <div className="left-side">
-                    ARUIZE
-                </div>
             </div>
-        );
-    }
+            <div className="left-side">
+                ARUIZE
+            </div>
+        </div>
+    );
 }
+
+export default NavigationComponent;
