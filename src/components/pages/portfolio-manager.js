@@ -12,11 +12,11 @@ export default class PortfolioManager extends Component {
             portfolioItems: []
         }
 
-        this.handleSuccessfulSubmission = this.handleSuccessfulSubmission.bind(this);
+        this.handleSuccessfulFormSubmission = this.handleSuccessfulFormSubmission.bind(this);
         this.handleFormSubmissionError = this.handleFormSubmissionError.bind(this);
     }
 
-    handleSuccessfulSubmission(data) {
+    handleSuccessfulFormSubmission(data) {
         //TODO 
         //Uptade the portfolioitems state
         //Add the portfolioItem to the list
@@ -48,7 +48,7 @@ export default class PortfolioManager extends Component {
 
                 <div className="left-column">
                     <PortfolioForm 
-                    handleSuccessfulSubmission={this.handleSuccessfulSubmission}
+                    handleSuccessfulFormSubmission={this.handleSuccessfulFormSubmission}
                     handleFormSubmissionError={this.handleFormSubmissionError}
                     />
                 </div>
