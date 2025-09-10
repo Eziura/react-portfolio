@@ -17,8 +17,10 @@ export default class extends Component {
             url: "",
             thumb_image: "",
             banner_image: "",
-            logo: ""
-
+            logo: "",
+            editMode: false,
+            apiUrl: "https://eziura.devcamp.space/portfolio/portfolio_items",
+            apiAction: "post"
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -32,6 +34,36 @@ export default class extends Component {
         this.thumbRef = React.createRef();
         this.bannerRef = React.createRef();
         this.logoRef = React.createRef();
+    }
+
+    componentDidUpdate() {
+        if (Object.keys(this.props.portfolioToEdit).length > 0) {
+            const {
+                id,
+                name,
+                description,
+                category,
+                position,
+                url,
+                thumb_image,
+                banner_image,
+                logo
+            } = this.props.portfolioToEdit;
+
+            this.props.clearPortfolioToEdit();
+
+            this.setState({
+                id: id,
+                name: name || "",
+                description: description || "",
+                category: category || "eCommerce",
+                position: position || "",
+                url: url || "",
+                editMode: true,
+                apiUrl: `https://eziura.devcamp.space/portfolio/portfolio_items/${id}`,
+                apiAction: "patch",
+            });
+        }
     }
 
     handleThumbDrop() {
@@ -99,31 +131,33 @@ export default class extends Component {
     }
 
     handleSubmit(event) {
-        axios.post(
-            "https://eziura.devcamp.space/portfolio/portfolio_items",
-            this.buildForm(),
-            { withCredentials: true }
-        ).then(response => {
-            this.props.handleSuccessfulFormSubmission(response.data.portfolio_item);
-
-            this.setState({
-                name: "",
-                description: "",
-                category: "eCommerce",
-                position: "",
-                url: "",
-                thumb_image: "",
-                banner_image: "",
-                logo: ""
-
-            });
-
-            [this.thumbRef, this.bannerRef, this.logoRef].forEach(ref => {
-                ref.current.dropzone.removeAllFiles();
-            })
-        }).catch(error => {
-            console.log("Portfolio form handleSubmit error", error);
+        axios({
+            method: this.state.apiAction,
+            url: this.state.apiUrl,
+            data: this.buildForm(),
+            withCredentials: true
         })
+            .then(response => {
+                this.props.handleSuccessfulFormSubmission(response.data.portfolio_item);
+
+                this.setState({
+                    name: "",
+                    description: "",
+                    category: "eCommerce",
+                    position: "",
+                    url: "",
+                    thumb_image: "",
+                    banner_image: "",
+                    logo: ""
+
+                });
+
+                [this.thumbRef, this.bannerRef, this.logoRef].forEach(ref => {
+                    ref.current.dropzone.removeAllFiles();
+                })
+            }).catch(error => {
+                console.log("Portfolio form handleSubmit error", error);
+            })
 
         event.preventDefault();
     }
@@ -198,7 +232,7 @@ export default class extends Component {
                         djsConfig={this.djsConfig()}
                         eventHandlers={this.handleThumbDrop()}
                     >
-                         <div className="dz-message">Thumb</div>
+                        <div className="dz-message">Thumb</div>
                     </DropZoneComponent>
 
                     <DropZoneComponent
@@ -207,7 +241,7 @@ export default class extends Component {
                         djsConfig={this.djsConfig()}
                         eventHandlers={this.handleLogoDrop()}
                     >
-                         <div className="dz-message">Logo</div>
+                        <div className="dz-message">Logo</div>
                     </DropZoneComponent>
 
 
