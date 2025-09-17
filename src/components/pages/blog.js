@@ -22,6 +22,13 @@ class Blog extends Component {
         this.OnScroll = this.OnScroll.bind(this);
         window.addEventListener('scroll', this.OnScroll, false);
         this.handleNewBlogClick = this.handleNewBlogClick.bind(this);
+        this.handleModalClose = this.handleModalClose.bind(this);
+    }
+
+    handleModalClose() {
+        this.setState({
+            blogModalIsOpen: false
+        })
     }
 
     handleNewBlogClick() {
@@ -80,13 +87,17 @@ class Blog extends Component {
 
         return (
             <div className="blog-container">
-                <BlogModal modalIsOpen={this.state.blogModalIsOpen}/>
+                <BlogModal
+
+                    handleModalClose={this.handleModalClose}
+                    modalIsOpen={this.state.blogModalIsOpen} />
 
                 <div className="new-blog-link">
                     <a onClick={this.handleNewBlogClick}>
                         open modal here!
                     </a>
                 </div>
+
                 <div className="content-container">
                     {blogRecords}
                 </div>
