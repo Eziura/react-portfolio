@@ -1,6 +1,7 @@
 @mixin base-btn {
     cursor: pointer;
     height: 42px;
+    width: 100%;
     font-size: 1em;
     font-weight: 500;
     border: 1px solid transparent;
@@ -18,8 +19,9 @@
     }
 }
 
+
 @mixin input-element {
-    input{
+    input {
         font-family: "Playfair Display", sans-serif;
         color: $charcoal;
         padding: 5px 0px;
