@@ -6,20 +6,21 @@ export default class BlogDetail extends Component {
         super(props);
 
         this.state = {
-            currentID: this.props.match.params.slug,
-            blogItem: []
-        }
+            currentId: this.props.match.params.slug,
+            blogItem: {}
+        };
     }
 
     getBlogItem() {
-        axios.get(`https://eziura.devcamp.space/portfolio/portfolio_blogs/${this.state.currentID}`
+        axios.get(`https://eziura.devcamp.space/portfolio/portfolio_blogs/${this.state.currentId}`
         ).then(response => {
             this.setState({
                 blogItem: response.data.portfolio_blog
-            })
-        }).catch(error => {
-            console.log('error', error);
+            });
         })
+            .catch(error => {
+                console.log("getBlogItem error", error);
+            });
     }
 
     componentDidMount() {
@@ -32,7 +33,7 @@ export default class BlogDetail extends Component {
             content,
             featured_image_url,
             blog_status
-        } = this.state.blogItem
+        } = this.state.blogItem;
 
         return (
             <div className="blog-container">
