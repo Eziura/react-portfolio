@@ -9,11 +9,19 @@ export default class BlogForm extends Component {
 
         this.state = {
             title: "",
-            blog_status: ""
+            blog_status: "",
+            content: ""
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleRichTextEditorChange = this.handleRichTextEditorChange.bind(
+            this
+        );
+    }
+
+    handleRichTextEditorChange(content) {
+        this.setState({ content });
     }
 
     buildForm() {
@@ -21,6 +29,7 @@ export default class BlogForm extends Component {
 
         formData.append("portfolio_blog[title]", this.state.title);
         formData.append("portfolio_blog[blog_status]", this.state.blog_status);
+        formData.append("portfolio_blog[content]", this.state.content);
 
         return formData;
     }
@@ -49,7 +58,6 @@ export default class BlogForm extends Component {
         event.preventDefault();
     }
 
-
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
@@ -58,33 +66,32 @@ export default class BlogForm extends Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <div className="blog-form-wrapper">
-                    <div className="one-column">
-                        <input
-                            type="text"
-                            onChange={this.handleChange}
-                            name="title"
-                            placeholder="Blog Title"
-                            value={this.state.title}
-                        />
+            <form onSubmit={this.handleSubmit} className="blog-form-wrapper">
+                <div className="two-column">
+                    <input
+                        type="text"
+                        onChange={this.handleChange}
+                        name="title"
+                        placeholder="Blog Title"
+                        value={this.state.title}
+                    />
 
-                        <input
-                            type="text"
-                            onChange={this.handleChange}
-                            name="blog_status"
-                            placeholder="Blog status"
-                            value={this.state.blog_status}
-                        />
-                    </div>
-
-                    <div className="one-column">
-                        <RichTextEditor />
-                    </div>
-
-                    <button className="btn">Save</button>
-
+                    <input
+                        type="text"
+                        onChange={this.handleChange}
+                        name="blog_status"
+                        placeholder="Blog status"
+                        value={this.state.blog_status}
+                    />
                 </div>
+
+                <div className="one-column">
+                    <RichTextEditor
+                        handleRichTextEditorChange={this.handleRichTextEditorChange}
+                    />
+                </div>
+
+                <button className="btn">Save</button>
             </form>
         );
     }
