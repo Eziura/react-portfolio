@@ -35,10 +35,10 @@ export default class BlogForm extends Component {
                     response.data.portfolio_blog
                 );
 
-                this.setState({
-                    title: "",
-                    blog_status: ""
-                });
+                // this.setState({
+                //     title: "",
+                //     blog_status: ""
+                // });
             })
             .catch(error => {
                 console.log("handleSubmit for blog error", error);
@@ -46,6 +46,7 @@ export default class BlogForm extends Component {
 
         event.preventDefault();
     }
+
 
     handleChange(event) {
         this.setState({
@@ -76,7 +77,7 @@ export default class BlogForm extends Component {
                     </div>
 
                     <button className="btn">Save</button>
-                    
+
                 </div>
             </form>
         );
