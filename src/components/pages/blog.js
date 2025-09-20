@@ -84,7 +84,7 @@ class Blog extends Component {
             });
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getBlogItems();
     }
 
@@ -100,7 +100,6 @@ class Blog extends Component {
         return (
             <div className="blog-container">
                 <BlogModal
-                    key={this.state.blogModalIsOpen}
                     handleSuccessfulNewBlogSubmission={
                         this.handleSuccessfulNewBlogSubmission
                     }
