@@ -11,6 +11,7 @@ export default class BlogForm extends Component {
         super(props);
 
         this.state = {
+            id: "",
             title: "",
             blog_status: "",
             content: "",
@@ -27,6 +28,16 @@ export default class BlogForm extends Component {
         this.handleFeaturedImageDrop = this.handleFeaturedImageDrop.bind(this);
 
         this.featuredImageRef = React.createRef();
+    }
+
+    componentWillMount() {
+        if (this.props.editMode) {
+            this.setState({
+                id: this.props.blog.id,
+                title: this.props.blog.title,
+                status: this.props.blog.status
+            });
+        }
     }
 
     componentConfig() {
@@ -63,7 +74,10 @@ export default class BlogForm extends Component {
         formData.append("portfolio_blog[content]", this.state.content);
 
         if (this.state.featured_image) {
-            formData.append("portfolio_blog[featured_image]", this.state.featured_image);
+            formData.append(
+                "portfolio_blog[featured_image]",
+                this.state.featured_image
+            );
         }
 
         return formData;
@@ -83,6 +97,7 @@ export default class BlogForm extends Component {
                 this.setState({
                     title: "",
                     blog_status: "",
+                    content: "",
                     featured_image: "",
                 });
 
@@ -128,18 +143,28 @@ export default class BlogForm extends Component {
                 <div className="one-column">
                     <RichTextEditor
                         handleRichTextEditorChange={this.handleRichTextEditorChange}
+                        editMode={this.props.editMode}
+                        contentToEdit={
+                            this.props.editMode && this.props.blog.content
+                                ? this.props.blog.content
+                                : null
+                        }
                     />
                 </div>
 
                 <div className="image-uploaders blog-form-image-uploader">
-                    <DropzoneComponent
-                        ref={this.featuredImageRef}
-                        config={this.componentConfig()}
-                        djsConfig={this.djsConfig()}
-                        eventHandlers={this.handleFeaturedImageDrop()}
-                    >
-                        <div className="dz-message">Featured Image</div>
-                    </DropzoneComponent>
+                    {this.props.editMode && this.props.blog.featured_image_url ? (
+                        <h1>Featured Image</h1>) : (
+
+                        <DropzoneComponent
+                            ref={this.featuredImageRef}
+                            config={this.componentConfig()}
+                            djsConfig={this.djsConfig()}
+                            eventHandlers={this.handleFeaturedImageDrop()}
+                        >
+                            <div className="dz-message">Featured Image</div>
+                        </DropzoneComponent>
+                    )}
                 </div>
 
                 <button className="btn">Save</button>
