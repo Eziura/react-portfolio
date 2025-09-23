@@ -125,8 +125,13 @@ export default class App extends Component {
                 )}
               />
 
-              <Route path="/b/:slug" component={BlogDetail} />
-              
+              <Route
+                path="/b/:slug"
+                render={props => (
+                  <BlogDetail {...props} loggedInStatus={this.state.loggedInStatus} />
+                )}
+              />
+
               {/* Estas paginas solo son visibles si estas logueado y se colocan en la lista de authorizedPages */}
               {this.state.loggedInStatus === "LOGGED_IN" ? (
                 this.authorizedPages()
