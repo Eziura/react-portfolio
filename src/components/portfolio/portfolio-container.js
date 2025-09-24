@@ -25,12 +25,9 @@ export default class PortfolioContainer extends Component {
     handleFilter(filter) {
         if (filter === "CLEAR_FILTERS") {
             this.getPortfolioItems();
+        } else {
+            this.getPortfolioItems(filter);
         }
-        this.setState({
-            data: this.state.data.filter(item => {
-                return item.category === filter;
-            })
-        });
     }
 
     getPortfolioItems(filter = null) {
@@ -38,9 +35,17 @@ export default class PortfolioContainer extends Component {
         axios.get('https://eziura.devcamp.space/portfolio/portfolio_items')
             .then(response => {
                 // handle success
-                this.setState({
-                    data: response.data.portfolio_items
-                })
+                if (filter) {
+                    this.setState({
+                        data: response.data.portfolio_items.filter(item => {
+                            return item.category === filter;
+                        })
+                    });
+                } else {
+                    this.setState({
+                        data: response.data.portfolio_items
+                    });
+                }
             })
             .catch(error => {
                 // handle error
