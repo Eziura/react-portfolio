@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { DropzoneComponent } from "react-dropzone-component";
+import DropzoneComponent from "react-dropzone-component";
 
 import RichTextEditor from "../forms/rich-text-editor";
-import "../../../node_modules/react-dropzone-component/styles/filepicker.css";
-import "../../../node_modules/dropzone/dist/min/dropzone.min.css"
 
 export default class BlogForm extends Component {
     constructor(props) {
@@ -31,14 +29,13 @@ export default class BlogForm extends Component {
         this.deleteImage = this.deleteImage.bind(this);
 
         this.featuredImageRef = React.createRef();
-
     }
 
     deleteImage(imageType) {
         axios
             .delete(
-                `https://api.devcamp.space/portfolio/delete-portfolio-blog-image/${this.props.blog
-                    .id}?image_type=${imageType}`,
+                `https://api.devcamp.space/portfolio/delete-portfolio-blog-image/${this.props.blog.id
+                }?image_type=${imageType}`,
                 { withCredentials: true }
             )
             .then(response => {
@@ -68,20 +65,20 @@ export default class BlogForm extends Component {
             iconFiletypes: [".jpg", ".png"],
             showFiletypeIcon: true,
             postUrl: "https://httpbin.org/post"
-        }
+        };
     }
 
     djsConfig() {
         return {
             addRemoveLinks: true,
             maxFiles: 1
-        }
+        };
     }
 
     handleFeaturedImageDrop() {
         return {
             addedfile: file => this.setState({ featured_image: file })
-        }
+        };
     }
 
     handleRichTextEditorChange(content) {
@@ -113,7 +110,6 @@ export default class BlogForm extends Component {
             withCredentials: true
         })
             .then(response => {
-
                 if (this.state.featured_image) {
                     this.featuredImageRef.current.dropzone.removeAllFiles();
                 }
@@ -122,14 +118,12 @@ export default class BlogForm extends Component {
                     title: "",
                     blog_status: "",
                     content: "",
-                    featured_image: "",
+                    featured_image: ""
                 });
 
                 if (this.props.editMode) {
-                    //update blog detail
-                    this.props.handleUpdateFormSubmission(
-                        response.data.portfolio_blog
-                    );
+                    // Update blog detail
+                    this.props.handleUpdateFormSubmission(response.data.portfolio_blog);
                 } else {
                     this.props.handleSuccessfullFormSubmission(
                         response.data.portfolio_blog
@@ -184,11 +178,13 @@ export default class BlogForm extends Component {
 
                 <div className="image-uploaders">
                     {this.props.editMode && this.props.blog.featured_image_url ? (
-                        <div className="blog-manager-image-wrapper">
+                        <div className="portfolio-manager-image-wrapper">
                             <img src={this.props.blog.featured_image_url} style={{ width: "100%", height: "120px" }} />
 
                             <div className="image-removal-link">
-                                <a onClick={() => this.deleteImage("featured_image")}>Remove file</a>
+                                <a onClick={() => this.deleteImage("featured_image")}>
+                                    Remove file
+                                </a>
                             </div>
                         </div>
                     ) : (

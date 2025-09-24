@@ -30,15 +30,19 @@ class Blog extends Component {
         axios.delete(
             `https://api.devcamp.space/portfolio/portfolio_blogs/${blog.id}`,
             { withCredentials: true }
-        ).then(response => {
-            this.setState({
-                blogItems: this.state.blogItems.filter(blogItem => {
-                    return blogItem.id !== blog.id;
-                })
+        )
+            .then(response => {
+                this.setState({
+                    blogItems: this.state.blogItems.filter(blogItem => {
+                        return blog.id !== blogItem.id;
+                    })
+                });
+
+                return response.data;
             })
-        }).catch(error => {
-            console.log("delete blog error", error);
-        });
+            .catch(error => {
+                console.log("delete blog error", error);
+            });
     }
 
     handleSuccessfulNewBlogSubmission(blog) {
@@ -100,7 +104,7 @@ class Blog extends Component {
             });
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.getBlogItems();
     }
 
@@ -123,6 +127,7 @@ class Blog extends Component {
                 return <BlogItem key={blogItem.id} blogItem={blogItem} />;
             }
         });
+
         return (
             <div className="blog-container">
                 <BlogModal

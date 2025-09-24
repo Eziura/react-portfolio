@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import ReactHtmlParser from "react-html-parser";
-import Blog from "./blog";
 
 import BlogForm from "../blog/blog-form";
 import BlogFeaturedImage from "../blog/blog-featured-image";
@@ -37,20 +36,18 @@ export default class BlogDetail extends Component {
     }
 
     handleEditClick() {
-        console.log("handleEditClick");
-        if (this.props.loggedInStatus === "LOGGED_IN")
-            this.setState({
-                editMode: true
-            })
+        if (this.props.loggedInStatus === "LOGGED_IN") {
+            this.setState({ editMode: true });
+        }
     }
 
     getBlogItem() {
         axios.get(`https://eziura.devcamp.space/portfolio/portfolio_blogs/${this.state.currentId}`
         ).then(response => {
-            this.setState({
-                blogItem: response.data.portfolio_blog
-            });
-        })
+                this.setState({
+                    blogItem: response.data.portfolio_blog
+                });
+            })
             .catch(error => {
                 console.log("getBlogItem error", error);
             });
@@ -91,10 +88,6 @@ export default class BlogDetail extends Component {
             }
         };
 
-        return (
-            <div className="blog-container">
-                {contentManager()}
-            </div>
-        );
+        return <div className="blog-container">{contentManager()}</div>;
     }
 }

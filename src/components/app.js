@@ -15,7 +15,6 @@ import Auth from "./pages/auth";
 import NoMatch from "./pages/no-match";
 import Icons from "../helpers/icons";
 
-
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -53,8 +52,8 @@ export default class App extends Component {
     // Endpoint para comprobar si el usuario está logueado
     return axios.get("https://api.devcamp.space/logged_in", {
       withCredentials: true
-    }).
-      then(response => {
+    })
+      .then(response => {
         //to use them in the conditionals
         const loggedIn = response.data.logged_in;
         const loggedInStatus = this.state.loggedInStatus;
@@ -75,10 +74,10 @@ export default class App extends Component {
             loggedInStatus: "NOT_LOGGED_IN"
           });
         }
-      }).
-      catch(error => {
-        console.log("Error", error);
       })
+      .catch(error => {
+        console.log("Error", error);
+      });
   }
 
   componentDidMount() {
@@ -87,7 +86,11 @@ export default class App extends Component {
 
   authorizedPages() {
     return [
-      <Route key="portfolio-manager" path="/portfolio-manager" component={PortfolioManager} />
+      <Route
+        key="portfolio-manager"
+        path="/portfolio-manager"
+        component={PortfolioManager}
+      />
     ];
   }
 
@@ -128,15 +131,17 @@ export default class App extends Component {
               <Route
                 path="/b/:slug"
                 render={props => (
-                  <BlogDetail {...props} loggedInStatus={this.state.loggedInStatus} />
+                  <BlogDetail
+                    {...props}
+                    loggedInStatus={this.state.loggedInStatus}
+                  />
                 )}
               />
 
-              {/* Estas paginas solo son visibles si estas logueado y se colocan en la lista de authorizedPages */}
-              {this.state.loggedInStatus === "LOGGED_IN" ? (
-                this.authorizedPages()
-              ) : null}
-
+{/* Estas paginas solo son visibles si estas logueado y se colocan en la lista de authorizedPages */}
+              {this.state.loggedInStatus === "LOGGED_IN"
+                ? this.authorizedPages()
+                : null}
               <Route
                 exact
                 path="/portfolio/:slug"
