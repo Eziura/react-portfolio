@@ -80,7 +80,7 @@ module.exports = webpackMerge(webpackCommon, {
         removeStyleLinkTypeAttributes: true,
         keepClosingSlash: true,
         minifyJS: true,
-        minifyCSS: true,
+        minifyCSS: false, // <-- CAMBIA ESTO A FALSE
         minifyURLs: true
       }
     }),
